@@ -40,8 +40,24 @@
             <q-icon name="favorite" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Contact / Help</q-item-label>
+            <q-item-label>Contact</q-item-label>
             <q-item-label caption> @perelin </q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          tag="a"
+          target="_blank"
+          href="https://github.com/perelin/1on1questions"
+        >
+          <q-item-section avatar>
+            <q-icon name="code" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Help / Bugs / Requests</q-item-label>
+            <q-item-label caption>
+              github.com/perelin/1on1questions
+            </q-item-label>
           </q-item-section>
         </q-item>
         <q-item-label header> Essential 1on1 Reads </q-item-label>
