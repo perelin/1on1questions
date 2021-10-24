@@ -84,12 +84,9 @@ export default defineComponent({
     };
   },
   methods: {
-    test(something) {
-      console.log(something);
-    },
+    test(something) {},
     removeQuestion(index) {
       this.randomQuestions.splice(index, 1);
-      console.log(this.randomQuestions.length);
       this.numberOfRandomQuestions = this.randomQuestions.length;
     },
     addQuestion() {
@@ -122,13 +119,9 @@ export default defineComponent({
     },
   },
   watch: {
-    randomQuestions: function () {
-      console.log(this.randomQuestions.length);
-    },
+    randomQuestions: function () {},
   },
   mounted() {
-    console.log(this.$q);
-    console.log(this.$root);
     this.randomQuestions = this.getRandomQuestions(
       this.questions,
       this.numberOfRandomQuestions
