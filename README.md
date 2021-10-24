@@ -1,5 +1,9 @@
 # Readme
 
+not much here yet...
+
+build with https://quasar.dev
+
 ## Todos
 
 - unique questions
@@ -9,10 +13,6 @@
   - session: name + questions + notes
 - send results via email to xyz
 
-## Competition
+## Check out
 
 https://www.impraise.com
-
-## ideas
-
-https://www.15five.com/blog/one-on-one-meeting-checklist/
