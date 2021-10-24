@@ -12,7 +12,3 @@ build with https://quasar.dev
   - save session locally
   - session: name + questions + notes
 - send results via email to xyz
-
-## Check out
-
-https://www.impraise.com
