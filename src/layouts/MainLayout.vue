@@ -10,25 +10,26 @@
           aria-label="Menu"
           @click="toggleLeftDrawer"
         />
-
         <q-toolbar-title> 1on1 Questions </q-toolbar-title>
-
         <q-icon name="social_distance" size="xl" />
       </q-toolbar>
     </q-header>
-
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header> Essential 1on1 Reads </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-      <q-list>
-        <q-item-label header> About </q-item-label>
+        <q-item-label header> What is this? </q-item-label>
+        <q-item>
+          <q-item-section avatar>
+            <q-icon name="info" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>1on1 Questions Generator</q-item-label>
+            <q-item-label caption
+              >Too many meetings and no time to prepare for a proper 1on1
+              session? Grab a few questions on the go with this quick-and-dirty
+              questions generator!
+            </q-item-label>
+          </q-item-section>
+        </q-item>
         <q-item
           clickable
           tag="a"
@@ -43,6 +44,12 @@
             <q-item-label caption> @perelin </q-item-label>
           </q-item-section>
         </q-item>
+        <q-item-label header> Essential 1on1 Reads </q-item-label>
+        <EssentialLink
+          v-for="link in essentialLinks"
+          :key="link.title"
+          v-bind="link"
+        />
       </q-list>
     </q-drawer>
 
