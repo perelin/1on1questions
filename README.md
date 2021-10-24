@@ -2,14 +2,7 @@
 
 ## Todos
 
-- reload all
-- Layout
-  - as list https://quasar.dev/vue-components/list-and-list-items
 - unique questions
-- edit parameters
-  - number of questions OR add/remove questions (+/-)
-  - add / remove question groups
-- replace questions / new random question
 - question notes
 - session concept:
   - save session locally
