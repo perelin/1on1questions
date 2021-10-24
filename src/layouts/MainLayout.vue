@@ -25,7 +25,7 @@
             <q-item-label>1on1 Questions Generator</q-item-label>
             <q-item-label caption
               >Too many meetings and no time to prepare for a proper 1on1
-              session? Grab a few questions on the go with this quick-and-dirty
+              session? Grab a few questions on-the-go with this quick-and-dirty
               questions generator!
             </q-item-label>
           </q-item-section>
