@@ -1,63 +1,72 @@
 <template>
   <q-page>
     <q-list bordered separator>
-      <q-item clickable v-ripple @click="reloadQuestions()">
+      <!-- add new questions -->
+      <q-item clickable v-ripple @click="addQuestion()">
+        <q-item-section top side>
+          <div class="text-grey-8">
+            <q-btn
+              class=""
+              size="12px"
+              flat
+              dense
+              round
+              icon="add"
+              @click="addQuestion()"
+            />
+          </div>
+        </q-item-section>
         <q-item-section>
-          <q-item-label
-            >Randomize {{ numberOfRandomQuestions }} questions</q-item-label
-          >
+          <q-item-label>Add a question</q-item-label>
         </q-item-section>
       </q-item>
-      <q-item clickable v-for="(item, index) in randomQuestions" :key="index">
+      <!-- questions list -->
+      <q-item
+        v-for="(item, index) in randomQuestions"
+        :key="index"
+        :disable="item.done"
+      >
         <q-item-section>
-          <q-item-label caption>{{ item.category }}</q-item-label>
+          <q-item-label caption class="text-primary">{{
+            item.category
+          }}</q-item-label>
           <q-item-label>{{ item.question }}</q-item-label>
         </q-item-section>
         <q-item-section top side>
           <div class="text-grey-8 q-gutter-xs">
             <q-btn
-              class="gt-xs"
               size="12px"
               flat
               dense
               round
               icon="delete"
-              @click="removeQuestion(index)"
+              @click="removeQuestion"
             />
-            <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
+            <q-checkbox v-model="item.done" />
           </div>
         </q-item-section>
       </q-item>
-      <q-item clickable v-ripple @click="addQuestion()">
+      <!-- randomize questions list -->
+      <q-item clickable v-ripple @click="reloadQuestions()">
+        <q-item-section top side>
+          <div class="text-grey-8 q-gutter-xs">
+            <q-btn
+              size="12px"
+              flat
+              dense
+              round
+              icon="refresh"
+              @click="reloadQuestions()"
+            />
+          </div>
+        </q-item-section>
         <q-item-section>
-          <q-item-label>Add a question</q-item-label>
+          <q-item-label
+            >Randomize all {{ numberOfRandomQuestions }} questions</q-item-label
+          >
         </q-item-section>
       </q-item>
     </q-list>
-
-    <div class="row q-pa-md q-gutter-md justify-start">
-      <q-card
-        class="my-card col-4 column"
-        v-for="(item, index) in randomQuestions"
-        :key="index"
-      >
-        <q-card-section class="col">
-          <div class="text-caption text-blue-grey-4">
-            <p class="">
-              {{ item.category }}
-            </p>
-          </div>
-          <div class="">{{ item.question }}</div>
-        </q-card-section>
-
-        <q-card-actions>
-          <q-btn flat @click="randomQuestions.splice(index, 1)">Remove</q-btn>
-          <q-btn flat @click="randomQuestions.splice(index, 1)">Done</q-btn>
-        </q-card-actions>
-      </q-card>
-
-      <q-btn flat @click="addQuestion()">Add</q-btn>
-    </div>
   </q-page>
 </template>
 
@@ -75,6 +84,9 @@ export default defineComponent({
     };
   },
   methods: {
+    test(something) {
+      console.log(something);
+    },
     removeQuestion(index) {
       this.randomQuestions.splice(index, 1);
       console.log(this.randomQuestions.length);
@@ -82,7 +94,8 @@ export default defineComponent({
     },
     addQuestion() {
       const newQuestion = this.getRandomQuestions(this.questions, 1);
-      this.randomQuestions.push(newQuestion[0]);
+      //$.set(vm.someObject, "done", false);
+      this.randomQuestions.unshift(newQuestion[0]);
       this.numberOfRandomQuestions = this.randomQuestions.length;
     },
     reloadQuestions() {
@@ -96,8 +109,9 @@ export default defineComponent({
 
       for (let index = 0; index < numberOfQuestions; index++) {
         let questionNumber = Math.floor(this.randomNumber(0, questions.length));
-
-        resultQuestions.push(questions[questionNumber]);
+        let question = questions[questionNumber];
+        question.done = false;
+        resultQuestions.push(question);
       }
 
       return resultQuestions;
