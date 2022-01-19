@@ -40,7 +40,7 @@
               dense
               round
               icon="delete"
-              @click="removeQuestion"
+              @click="removeQuestion(index)"
             />
             <q-checkbox v-model="item.done" />
           </div>
@@ -86,6 +86,7 @@ export default defineComponent({
   methods: {
     test(something) {},
     removeQuestion(index) {
+      console.log(index);
       this.randomQuestions.splice(index, 1);
       this.numberOfRandomQuestions = this.randomQuestions.length;
     },

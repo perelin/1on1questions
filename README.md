@@ -6,6 +6,8 @@ build with https://quasar.dev
 
 ## Todos
 
+- reorder questions
+- put conversation starters on top
 - unique questions
 - question notes
 - session concept:
