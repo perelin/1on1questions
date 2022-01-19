@@ -6,6 +6,7 @@ build with https://quasar.dev
 
 ## Todos
 
+- pin questions not to be randomized
 - reorder questions
 - put conversation starters on top
 - unique questions
