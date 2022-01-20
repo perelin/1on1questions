@@ -9,6 +9,8 @@ build with https://quasar.dev
 - pin questions not to be randomized
 - reorder questions
 - put conversation starters on top
+- enter own questions
+  - submit questions
 - unique questions
 - question notes
 - session concept:
