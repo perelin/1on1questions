@@ -48,16 +48,14 @@
           clickable
           tag="a"
           target="_blank"
-          href="https://github.com/perelin/1on1questions"
+          href="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAANAAYBrVNdUQ1JPMlVXQ1gwTUM3Ujc1QVhBSDk0UFMxMS4u"
         >
           <q-item-section avatar>
             <q-icon name="code" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Help / Bugs / Requests</q-item-label>
-            <q-item-label caption>
-              github.com/perelin/1on1questions
-            </q-item-label>
+            <q-item-label caption> Feedback Form </q-item-label>
           </q-item-section>
         </q-item>
         <q-item-label header> Essential 1on1 Reads </q-item-label>
