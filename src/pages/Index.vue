@@ -39,6 +39,15 @@
               flat
               dense
               round
+              :color="item.pinned === true ? 'orange' : ''"
+              icon="push_pin"
+              @click="pinQuestion(item, $event)"
+            />
+            <q-btn
+              size="12px"
+              flat
+              dense
+              round
               icon="delete"
               @click="removeQuestion(index)"
             />
@@ -61,9 +70,7 @@
           </div>
         </q-item-section>
         <q-item-section>
-          <q-item-label
-            >Randomize all {{ numberOfRandomQuestions }} questions</q-item-label
-          >
+          <q-item-label>Randomize unpinned questions</q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
@@ -85,8 +92,10 @@ export default defineComponent({
   },
   methods: {
     test(something) {},
+    pinQuestion(question, event) {
+      question.pinned = question.pinned ? false : true;
+    },
     removeQuestion(index) {
-      console.log(index);
       this.randomQuestions.splice(index, 1);
       this.numberOfRandomQuestions = this.randomQuestions.length;
     },
@@ -97,10 +106,19 @@ export default defineComponent({
       this.numberOfRandomQuestions = this.randomQuestions.length;
     },
     reloadQuestions() {
-      this.randomQuestions = this.getRandomQuestions(
+      this.randomQuestions.forEach((item, index, object) => {
+        if (!item.pinned) {
+          object.splice(index, 1);
+        }
+      });
+      const newQuestions = this.getRandomQuestions(
         this.questions,
-        this.numberOfRandomQuestions
+        this.numberOfRandomQuestions - this.randomQuestions.length
       );
+
+      const merged = this.randomQuestions.concat(newQuestions);
+
+      this.randomQuestions = merged;
     },
     getRandomQuestions(questions, numberOfQuestions) {
       let resultQuestions = [];
@@ -109,6 +127,7 @@ export default defineComponent({
         let questionNumber = Math.floor(this.randomNumber(0, questions.length));
         let question = questions[questionNumber];
         question.done = false;
+        question.pinned = false;
         resultQuestions.push(question);
       }
 
