@@ -20,6 +20,7 @@
           <q-item-label>Add a question</q-item-label>
         </q-item-section>
       </q-item>
+
       <!-- questions list -->
       <q-item
         v-for="(item, index) in randomQuestions"
@@ -55,6 +56,7 @@
           </div>
         </q-item-section>
       </q-item>
+
       <!-- randomize questions list -->
       <q-item clickable v-ripple @click="reloadQuestions()">
         <q-item-section top side>
@@ -106,17 +108,18 @@ export default defineComponent({
       this.numberOfRandomQuestions = this.randomQuestions.length;
     },
     reloadQuestions() {
+      let pinnedQuestions = [];
       this.randomQuestions.forEach((item, index, object) => {
-        if (!item.pinned) {
-          object.splice(index, 1);
+        if (item.pinned) {
+          pinnedQuestions.push(item);
         }
       });
       const newQuestions = this.getRandomQuestions(
         this.questions,
-        this.numberOfRandomQuestions - this.randomQuestions.length
+        this.numberOfRandomQuestions - pinnedQuestions.length
       );
-
-      const merged = this.randomQuestions.concat(newQuestions);
+      //const merged = this.randomQuestions.concat(newQuestions);
+      const merged = newQuestions.concat(pinnedQuestions);
 
       this.randomQuestions = merged;
     },
