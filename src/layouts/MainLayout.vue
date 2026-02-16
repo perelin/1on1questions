@@ -73,31 +73,15 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
 import links from "assets/links.json";
 
-const linksList = links;
+const essentialLinks = links;
+const leftDrawerOpen = ref(false);
 
-import { defineComponent, ref } from "vue";
-
-export default defineComponent({
-  name: "MainLayout",
-
-  components: {
-    EssentialLink,
-  },
-
-  setup() {
-    const leftDrawerOpen = ref(false);
-
-    return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
-    };
-  },
-});
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value;
+}
 </script>
