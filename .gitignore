@@ -31,3 +31,9 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+# Quasar Vite compiled config
+/quasar.config.*.temporary.compiled*
+
+# Local env files
+.env.local*
