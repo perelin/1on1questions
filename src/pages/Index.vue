@@ -6,13 +6,11 @@
         <q-item-section top side>
           <div class="text-grey-8">
             <q-btn
-              class=""
               size="12px"
               flat
               dense
               round
               icon="add"
-              @click="addQuestion()"
             />
           </div>
         </q-item-section>
@@ -67,7 +65,6 @@
               dense
               round
               icon="refresh"
-              @click="reloadQuestions()"
             />
           </div>
         </q-item-section>
@@ -93,7 +90,6 @@ export default defineComponent({
     };
   },
   methods: {
-    test(something) {},
     pinQuestion(question, event) {
       question.pinned = question.pinned ? false : true;
     },
@@ -102,36 +98,33 @@ export default defineComponent({
       this.numberOfRandomQuestions = this.randomQuestions.length;
     },
     addQuestion() {
-      const newQuestion = this.getRandomQuestions(this.questions, 1);
-      //$.set(vm.someObject, "done", false);
-      this.randomQuestions.unshift(newQuestion[0]);
-      this.numberOfRandomQuestions = this.randomQuestions.length;
+      const displayedIds = this.randomQuestions.map((q) => q.id);
+      const newQuestion = this.getRandomQuestions(this.questions, 1, displayedIds);
+      if (newQuestion.length > 0) {
+        this.randomQuestions.unshift(newQuestion[0]);
+        this.numberOfRandomQuestions = this.randomQuestions.length;
+      }
     },
     reloadQuestions() {
-      let pinnedQuestions = [];
-      this.randomQuestions.forEach((item, index, object) => {
-        if (item.pinned) {
-          pinnedQuestions.push(item);
-        }
-      });
+      const pinnedQuestions = this.randomQuestions.filter((item) => item.pinned);
+      const pinnedIds = pinnedQuestions.map((q) => q.id);
       const newQuestions = this.getRandomQuestions(
         this.questions,
-        this.numberOfRandomQuestions - pinnedQuestions.length
+        this.numberOfRandomQuestions - pinnedQuestions.length,
+        pinnedIds
       );
-      //const merged = this.randomQuestions.concat(newQuestions);
-      const merged = newQuestions.concat(pinnedQuestions);
-
-      this.randomQuestions = merged;
+      this.randomQuestions = newQuestions.concat(pinnedQuestions);
     },
-    getRandomQuestions(questions, numberOfQuestions) {
-      let resultQuestions = [];
+    getRandomQuestions(questions, numberOfQuestions, excludeIds = []) {
+      const available = questions.filter((q) => !excludeIds.includes(q.id));
+      const count = Math.min(numberOfQuestions, available.length);
+      const resultQuestions = [];
 
-      for (let index = 0; index < numberOfQuestions; index++) {
-        let questionNumber = Math.floor(this.randomNumber(0, questions.length));
-        let question = questions[questionNumber];
-        question.done = false;
-        question.pinned = false;
+      for (let index = 0; index < count; index++) {
+        const randomIndex = Math.floor(this.randomNumber(0, available.length));
+        const question = { ...available[randomIndex], done: false, pinned: false };
         resultQuestions.push(question);
+        available.splice(randomIndex, 1);
       }
 
       return resultQuestions;
@@ -140,9 +133,6 @@ export default defineComponent({
       return Math.random() * (max - min) + min;
       // src: https://www.geeksforgeeks.org/how-to-generate-random-number-in-given-range-using-javascript/
     },
-  },
-  watch: {
-    randomQuestions: function () {},
   },
   mounted() {
     this.randomQuestions = this.getRandomQuestions(
