@@ -1,7 +1,8 @@
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import allQuestions from "assets/questions.json";
 
 const DEFAULT_COUNT = 4;
+const STORAGE_KEY = "1on1-session";
 
 function randomIndex(max) {
   return Math.floor(Math.random() * max);
@@ -21,12 +22,35 @@ function pickRandom(pool, count, excludeIds = []) {
   return result;
 }
 
+function saveSession(questions) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(questions));
+  } catch {
+    // localStorage full or unavailable — silently ignore
+  }
+}
+
+function loadSession() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
 export function useQuestions() {
   const randomQuestions = ref([]);
   let questionCount = DEFAULT_COUNT;
 
   function init() {
-    randomQuestions.value = pickRandom(allQuestions, questionCount);
+    const saved = loadSession();
+    if (saved && saved.length > 0) {
+      randomQuestions.value = saved;
+      questionCount = saved.length;
+    } else {
+      randomQuestions.value = pickRandom(allQuestions, questionCount);
+    }
   }
 
   function pinQuestion(question) {
@@ -61,6 +85,14 @@ export function useQuestions() {
     randomQuestions.value = [...fresh, ...pinned];
   }
 
+  function clearSession() {
+    localStorage.removeItem(STORAGE_KEY);
+    questionCount = DEFAULT_COUNT;
+    randomQuestions.value = pickRandom(allQuestions, questionCount);
+  }
+
+  watch(randomQuestions, (val) => saveSession(val), { deep: true });
+
   return {
     randomQuestions,
     init,
@@ -68,5 +100,6 @@ export function useQuestions() {
     removeQuestion,
     addQuestion,
     reloadQuestions,
+    clearSession,
   };
 }

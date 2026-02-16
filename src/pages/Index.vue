@@ -73,6 +73,23 @@
         </q-item-section>
       </q-item>
 
+      <!-- clear session -->
+      <q-item clickable v-ripple @click="clearSession()">
+        <q-item-section top side>
+          <div class="text-grey-8 q-gutter-xs">
+            <q-btn
+              size="12px"
+              flat
+              dense
+              round
+              icon="restart_alt"
+            />
+          </div>
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Clear session</q-item-label>
+        </q-item-section>
+      </q-item>
     </q-list>
   </q-page>
 </template>
@@ -81,8 +98,15 @@
 import { onMounted } from "vue";
 import { useQuestions } from "src/composables/useQuestions";
 
-const { randomQuestions, init, pinQuestion, removeQuestion, addQuestion, reloadQuestions } =
-  useQuestions();
+const {
+  randomQuestions,
+  init,
+  pinQuestion,
+  removeQuestion,
+  addQuestion,
+  reloadQuestions,
+  clearSession,
+} = useQuestions();
 
 onMounted(() => {
   init();
