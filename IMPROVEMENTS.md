@@ -14,28 +14,11 @@ Deferred from the code review on 2026-02-16. Pick these up when ready.
 ### Remaining
 - Consider migrating from yarn v1 to a modern package manager (yarn v4, pnpm, or npm)
 
-## Tier 3 — Refactor Application Code
+## ~~Tier 3 — Refactor Application Code~~ (Completed 2026-02-16)
 
-### Consistent Vue API style
-- `MainLayout.vue` uses Composition API (`setup()`), `Index.vue` uses Options API
-- Migrate everything to `<script setup>` (modern Vue 3 standard)
-- This also removes the `defineComponent` boilerplate
-
-### Extract question logic into a composable
-- Create `src/composables/useQuestions.js`
-- Move randomization, pin/unpin, add/remove logic out of the component
-- Makes the logic testable independently of the UI
-
-### Add state persistence
-- Use `localStorage` to save the current session (selected questions, pin state, done state)
-- Restore on page reload
-- This addresses the README todo: "save session locally"
-
-### Improve question data model
-- `questions.json` has unused `created_at` / `updated_at` fields — strip them to reduce bundle size
-- Consider a lighter format or lazy-loading if the dataset grows significantly
-
-### Use `item.id` as `:key` instead of array index
-- `v-for="(item, index) in randomQuestions" :key="index"` — using index as key
-  causes Vue to reuse DOM nodes incorrectly when items are reordered or removed
-- Change to `:key="item.id"` for correct DOM diffing
+- Migrated all components (`EssentialLink.vue`, `MainLayout.vue`, `Index.vue`) to `<script setup>`
+- Extracted question logic into `src/composables/useQuestions.js`
+- Added `localStorage` session persistence with deep watch (restores on reload)
+- Stripped unused `created_at`/`updated_at` fields from `questions.json` (~78KB → ~47KB)
+- Fixed `:key` binding from array index to `item.id` for correct DOM diffing
+- Added "Clear session" button to reset saved state

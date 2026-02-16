@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-A 1on1 meeting question generator — a single-page web app that presents randomized questions for 1:1 meetings. Users can pin, remove, add, and re-randomize questions. Built with Quasar Framework v2 (Vue 3) using the Options API.
+A 1on1 meeting question generator — a single-page web app that presents randomized questions for 1:1 meetings. Users can pin, remove, add, and re-randomize questions. Built with Quasar Framework v2 (Vue 3) using `<script setup>` (Composition API).
 
 ## Commands
 
@@ -20,19 +20,21 @@ Requires Node >= 20.
 
 This is a minimal Quasar SPA with hash-based routing. Nearly all logic lives in a single page component.
 
-- `src/pages/Index.vue` — The entire app logic: randomizes questions from the JSON pool, handles pin/remove/add/reload. Uses Vue Options API with `data()`, `methods`, and `mounted()`.
-- `src/assets/questions.json` — Large (~78KB) flat JSON array of question objects with `category` and `question` fields. This is the question database.
+- `src/pages/Index.vue` — Main page: renders the question list, delegates logic to the `useQuestions` composable. Uses `<script setup>`.
+- `src/composables/useQuestions.js` — Core logic: random selection, pin/unpin, add/remove, reload, and `localStorage` session persistence.
+- `src/assets/questions.json` — Flat JSON array (~47KB) of question objects with `id`, `category`, and `question` fields.
 - `src/assets/links.json` — Curated reading list shown in the sidebar drawer.
-- `src/layouts/MainLayout.vue` — App shell with header toolbar and left drawer (info + links). Uses Composition API (`setup()`).
-- `src/components/EssentialLink.vue` — Simple link rendering component used in the drawer.
+- `src/layouts/MainLayout.vue` — App shell with header toolbar and left drawer (info + links). Uses `<script setup>`.
+- `src/components/EssentialLink.vue` — Simple link rendering component used in the drawer. Uses `<script setup>`.
 - `index.html` — Vite entry point with Matomo analytics (matomo.main.p2lab.com).
 - `quasar.config.js` — Quasar config: SPA mode, Vite, SCSS styling, Material icons.
 
 ## Key Patterns
 
-- Questions are selected randomly at mount time from the full pool — no deduplication (same question can appear twice).
+- Questions are selected randomly at mount time from the full pool with deduplication (excludes already-displayed IDs).
 - Pinned questions survive re-randomization; unpinned ones get replaced.
-- The `done` and `pinned` flags are mutated directly on question objects from the shared JSON import, meaning state doesn't persist across page reloads.
+- Session state (questions, pin/done flags) persists to `localStorage` via a deep watcher and restores on reload. A "Clear session" button resets to fresh random questions.
+- All components use `<script setup>` — no Options API or `defineComponent` boilerplate.
 - ESLint v9 flat config (`eslint.config.js`) with `plugin:vue/vue3-essential` + Prettier. No TypeScript.
 - Build tool: Vite (via `@quasar/app-vite`). No Babel.
 - Package manager: yarn (yarn.lock present).
