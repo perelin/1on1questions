@@ -2,24 +2,16 @@
 
 Deferred from the code review on 2026-02-16. Pick these up when ready.
 
-## Tier 2 — Modernize Tooling
+## ~~Tier 2 — Modernize Tooling~~ (Completed 2026-02-16)
 
-### Migrate from webpack to Vite
-- Replace `@quasar/app` (deprecated package name) with `@quasar/app-vite`
-- This gives faster dev server startup and HMR, faster production builds
-- Drops the need for Babel entirely — remove `babel.config.js` and `@babel/eslint-parser`
-- Quasar migration guide: https://quasar.dev/start/upgrade-guide
+- Migrated from `@quasar/app` (webpack) to `@quasar/app-vite` v2
+- Upgraded ESLint v7 → v9 with flat config (`eslint.config.js`)
+- Upgraded `eslint-plugin-vue` v7 → v9, `eslint-config-prettier` v8 → v10
+- Removed Babel (`babel.config.js`, `@babel/eslint-parser`), `core-js`, `eslint-webpack-plugin`
+- Updated Node engine requirement to `>= 20`
+- Switched VS Code recommendation from Vetur to Volar
 
-### Update ESLint
-- ESLint v7 -> v9+ with flat config (`eslint.config.js` instead of `.eslintrc.js`)
-- Update `eslint-plugin-vue` from v7 to v9+
-- Remove `eslint-webpack-plugin` (Vite handles this natively with `vite-plugin-eslint2`)
-- Remove `.eslintignore` (use `ignores` array in flat config)
-
-### Update Node engine requirement
-- `package.json` declares `node >= 12.22.1` — update to `>= 20` (current LTS)
-
-### Package manager
+### Remaining
 - Consider migrating from yarn v1 to a modern package manager (yarn v4, pnpm, or npm)
 
 ## Tier 3 — Refactor Application Code
